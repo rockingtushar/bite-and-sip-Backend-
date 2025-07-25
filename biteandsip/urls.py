@@ -17,8 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.http import HttpResponse
+from django.core.management import call_command
+
+def run_migration(request):
+    call_command('migrate_render')
+    return HttpResponse("✅ Migration Done!")
 
 urlpatterns = [
+    path('run-migration/', run_migration),
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
     path("", lambda request: HttpResponse("Bite & Sip API is Live 🚀")),
